@@ -11,6 +11,12 @@ import HealthKit
 struct MetricsView: View {
     @EnvironmentObject var workoutManager: WorkoutManager
     
+    @State private var isAnimating = false
+    private var repeatingAnimation: Animation {
+        Animation.easeInOut(duration: 0.4)
+            .repeatForever()
+    }
+    
     var body: some View {
         TimelineView(
             MetricsTimelineSchedule(
@@ -23,7 +29,16 @@ struct MetricsView: View {
                     elapsedTime: workoutManager.builder?.elapsedTime ?? 0,
                     showSubseconds: context.cadence == .live
                 )
-                HearRateView()
+                HStack{
+                    Text("❤️")
+                        .scaleEffect(isAnimating ? 0.5 : 1)
+                        .animation(repeatingAnimation, value: self.isAnimating)
+                        .onAppear {
+                            self.isAnimating = true
+                        }
+                    HearRateView()
+                }
+
                 Text("")
                     .frame(maxWidth: .infinity, minHeight: 2, alignment: .leading)
                     .background(
@@ -72,13 +87,13 @@ struct MetricsView_Previews: PreviewProvider {
 }
 
 private struct MetricsTimelineSchedule: TimelineSchedule {
-
+    
     var startDate: Date
     
     init(from startDate: Date) {
         self.startDate = startDate
     }
-        
+    
     func entries(from startDate: Date, mode: TimelineScheduleMode) -> PeriodicTimelineSchedule.Entries {
         PeriodicTimelineSchedule(from: self.startDate, by:
                                     (mode == .lowFrequency ? 1.0 : 1.0 / 10.0)

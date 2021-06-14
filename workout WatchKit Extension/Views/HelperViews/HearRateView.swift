@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HearRateView: View {
     @EnvironmentObject var workoutManager: WorkoutManager
-    let heartRate = HearRate()
+    private let heartRate = HearRate()
     
     var body: some View {
         Text(
@@ -19,6 +19,7 @@ struct HearRateView: View {
                 )
             + " bpm"
         ).foregroundColor(colorForHearRate(heartRate: workoutManager.heartRate))
+        
     }
     
     func colorForHearRate(heartRate: Double) -> Color {
@@ -80,8 +81,6 @@ struct HearRate {
         set(newValue) {
             if newValue == .belowFitnessZone || newValue == .aboveFitnessZone {
                 if privateFitnessZone == .fitnessZone {
-                    WKInterfaceDevice.current().play(.failure)
-                    WKInterfaceDevice.current().play(.failure)
                     WKInterfaceDevice.current().play(.failure)
                 }
             }

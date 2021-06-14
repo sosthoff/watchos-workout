@@ -23,7 +23,7 @@ struct StartView: View {
             }
             HStack{
                 List(workoutTypes0) { workoutType in
-                    NavigationLink( //?
+                    NavigationLink(
                         workoutType.name,
                         destination: SessionPaginView(),
                         tag: workoutType,
@@ -35,7 +35,7 @@ struct StartView: View {
                         )
                 }
                 List(workoutTypes1) { workoutType in
-                    NavigationLink( //?
+                    NavigationLink(
                         workoutType.name,
                         destination: SessionPaginView(),
                         tag: workoutType,
